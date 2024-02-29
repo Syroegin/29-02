@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище airModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="aircraft">
+          <Key>
+            <PropertyRef Name="id_air" />
+          </Key>
+          <Property Name="id_air" Type="int" Nullable="false" />
+          <Property Name="nomber" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="Load_capacity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Aircraft_crews">
+          <Key>
+            <PropertyRef Name="id_cr" />
+          </Key>
+          <Property Name="id_cr" Type="int" Nullable="false" />
+          <Property Name="brigade_number" Type="int" Nullable="false" />
+          <Property Name="plane" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="staff_air" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "air.dbo.Departure_schedule" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Departure_schedule">
+          <Key>
+            <PropertyRef Name="id_dep" />
+            <PropertyRef Name="plane" />
+            <PropertyRef Name="departure_date" />
+            <PropertyRef Name="departure_time" />
+            <PropertyRef Name="place_of_departure" />
+            <PropertyRef Name="place_of_arrival" />
+            <PropertyRef Name="route" />
+            <PropertyRef Name="ticket_price" />
+            <PropertyRef Name="id_ti" />
+            <PropertyRef Name="id_air" />
+          </Key>
+          <Property Name="id_dep" Type="int" Nullable="false" />
+          <Property Name="plane" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departure_date" Type="date" Nullable="false" />
+          <Property Name="departure_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="place_of_departure" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="place_of_arrival" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="route" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ticket_price" Type="money" Nullable="false" />
+          <Property Name="id_ti" Type="int" Nullable="false" />
+          <Property Name="id_air" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="id_st" />
+          </Key>
+          <Property Name="id_st" Type="int" Nullable="false" />
+          <Property Name="syrname" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="patronumic" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="date_work" Type="date" Nullable="false" />
+          <Property Name="experience" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="floor" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "air.dbo.Table1" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Table1">
+          <Key>
+            <PropertyRef Name="id_st" />
+            <PropertyRef Name="id_air" />
+            <PropertyRef Name="id_cr" />
+          </Key>
+          <Property Name="id_st" Type="int" Nullable="false" />
+          <Property Name="id_air" Type="int" Nullable="false" />
+          <Property Name="id_cr" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ticket_sales">
+          <Key>
+            <PropertyRef Name="id_tic" />
+          </Key>
+          <Property Name="id_tic" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="SNP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ps" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nomber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="quant" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Departure_schedule_aircraft">
+          <End Role="aircraft" Type="Self.aircraft" Multiplicity="1" />
+          <End Role="Departure_schedule" Type="Self.Departure_schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aircraft">
+              <PropertyRef Name="id_air" />
+            </Principal>
+            <Dependent Role="Departure_schedule">
+              <PropertyRef Name="id_air" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departure_schedule_Ticket_sales">
+          <End Role="Ticket_sales" Type="Self.Ticket_sales" Multiplicity="1" />
+          <End Role="Departure_schedule" Type="Self.Departure_schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket_sales">
+              <PropertyRef Name="id_tic" />
+            </Principal>
+            <Dependent Role="Departure_schedule">
+              <PropertyRef Name="id_ti" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_aircraft">
+          <End Role="aircraft" Type="Self.aircraft" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aircraft">
+              <PropertyRef Name="id_air" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_air" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_Aircraft_crews">
+          <End Role="Aircraft_crews" Type="Self.Aircraft_crews" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aircraft_crews">
+              <PropertyRef Name="id_cr" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_cr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="id_st" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_st" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище airModelContainer">
+          <EntitySet Name="aircraft" EntityType="Self.aircraft" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aircraft_crews" EntityType="Self.Aircraft_crews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket_sales" EntityType="Self.Ticket_sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departure_schedule" EntityType="Self.Departure_schedule" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Departure_schedule].[id_dep] AS [id_dep], 
+    [Departure_schedule].[plane] AS [plane], 
+    [Departure_schedule].[departure_date] AS [departure_date], 
+    [Departure_schedule].[departure_time] AS [departure_time], 
+    [Departure_schedule].[place_of_departure] AS [place_of_departure], 
+    [Departure_schedule].[place_of_arrival] AS [place_of_arrival], 
+    [Departure_schedule].[route] AS [route], 
+    [Departure_schedule].[ticket_price] AS [ticket_price], 
+    [Departure_schedule].[id_ti] AS [id_ti], 
+    [Departure_schedule].[id_air] AS [id_air]
+    FROM [dbo].[Departure_schedule] AS [Departure_schedule]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Table1" EntityType="Self.Table1" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Table1].[id_st] AS [id_st], 
+    [Table1].[id_air] AS [id_air], 
+    [Table1].[id_cr] AS [id_cr]
+    FROM [dbo].[Table1] AS [Table1]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Departure_schedule_aircraft" Association="Self.FK_Departure_schedule_aircraft">
+            <End Role="aircraft" EntitySet="aircraft" />
+            <End Role="Departure_schedule" EntitySet="Departure_schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departure_schedule_Ticket_sales" Association="Self.FK_Departure_schedule_Ticket_sales">
+            <End Role="Ticket_sales" EntitySet="Ticket_sales" />
+            <End Role="Departure_schedule" EntitySet="Departure_schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_aircraft" Association="Self.FK_Table1_aircraft">
+            <End Role="aircraft" EntitySet="aircraft" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_Aircraft_crews" Association="Self.FK_Table1_Aircraft_crews">
+            <End Role="Aircraft_crews" EntitySet="Aircraft_crews" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_Staff" Association="Self.FK_Table1_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="airModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="aircraft">
+          <Key>
+            <PropertyRef Name="id_air" />
+          </Key>
+          <Property Name="id_air" Type="Int32" Nullable="false" />
+          <Property Name="nomber" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="Load_capacity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departure_schedule" Relationship="Self.FK_Departure_schedule_aircraft" FromRole="aircraft" ToRole="Departure_schedule" />
+          <NavigationProperty Name="Table1" Relationship="Self.FK_Table1_aircraft" FromRole="aircraft" ToRole="Table1" />
+        </EntityType>
+        <EntityType Name="Aircraft_crews">
+          <Key>
+            <PropertyRef Name="id_cr" />
+          </Key>
+          <Property Name="id_cr" Type="Int32" Nullable="false" />
+          <Property Name="brigade_number" Type="Int32" Nullable="false" />
+          <Property Name="plane" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="staff_air" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Table1" Relationship="Self.FK_Table1_Aircraft_crews" FromRole="Aircraft_crews" ToRole="Table1" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="id_st" />
+          </Key>
+          <Property Name="id_st" Type="Int32" Nullable="false" />
+          <Property Name="syrname" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronumic" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_work" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="experience" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="floor" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Table1" Relationship="Self.FK_Table1_Staff" FromRole="Staff" ToRole="Table1" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Ticket_sales">
+          <Key>
+            <PropertyRef Name="id_tic" />
+          </Key>
+          <Property Name="id_tic" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SNP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ps" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nomber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="quant" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departure_schedule" Relationship="Self.FK_Departure_schedule_Ticket_sales" FromRole="Ticket_sales" ToRole="Departure_schedule" />
+        </EntityType>
+        <EntityType Name="Departure_schedule">
+          <Key>
+            <PropertyRef Name="id_dep" />
+            <PropertyRef Name="plane" />
+            <PropertyRef Name="departure_date" />
+            <PropertyRef Name="departure_time" />
+            <PropertyRef Name="place_of_departure" />
+            <PropertyRef Name="place_of_arrival" />
+            <PropertyRef Name="route" />
+            <PropertyRef Name="ticket_price" />
+            <PropertyRef Name="id_ti" />
+            <PropertyRef Name="id_air" />
+          </Key>
+          <Property Name="id_dep" Type="Int32" Nullable="false" />
+          <Property Name="plane" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="departure_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="departure_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="place_of_departure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="place_of_arrival" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ticket_price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="id_ti" Type="Int32" Nullable="false" />
+          <Property Name="id_air" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="aircraft" Relationship="Self.FK_Departure_schedule_aircraft" FromRole="Departure_schedule" ToRole="aircraft" />
+          <NavigationProperty Name="Ticket_sales" Relationship="Self.FK_Departure_schedule_Ticket_sales" FromRole="Departure_schedule" ToRole="Ticket_sales" />
+        </EntityType>
+        <EntityType Name="Table1">
+          <Key>
+            <PropertyRef Name="id_st" />
+            <PropertyRef Name="id_air" />
+            <PropertyRef Name="id_cr" />
+          </Key>
+          <Property Name="id_st" Type="Int32" Nullable="false" />
+          <Property Name="id_air" Type="Int32" Nullable="false" />
+          <Property Name="id_cr" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="aircraft" Relationship="Self.FK_Table1_aircraft" FromRole="Table1" ToRole="aircraft" />
+          <NavigationProperty Name="Aircraft_crews" Relationship="Self.FK_Table1_Aircraft_crews" FromRole="Table1" ToRole="Aircraft_crews" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Table1_Staff" FromRole="Table1" ToRole="Staff" />
+        </EntityType>
+        <Association Name="FK_Departure_schedule_aircraft">
+          <End Role="aircraft" Type="Self.aircraft" Multiplicity="1" />
+          <End Role="Departure_schedule" Type="Self.Departure_schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aircraft">
+              <PropertyRef Name="id_air" />
+            </Principal>
+            <Dependent Role="Departure_schedule">
+              <PropertyRef Name="id_air" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_aircraft">
+          <End Role="aircraft" Type="Self.aircraft" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aircraft">
+              <PropertyRef Name="id_air" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_air" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_Aircraft_crews">
+          <End Role="Aircraft_crews" Type="Self.Aircraft_crews" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aircraft_crews">
+              <PropertyRef Name="id_cr" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_cr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table1_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Table1" Type="Self.Table1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="id_st" />
+            </Principal>
+            <Dependent Role="Table1">
+              <PropertyRef Name="id_st" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departure_schedule_Ticket_sales">
+          <End Role="Ticket_sales" Type="Self.Ticket_sales" Multiplicity="1" />
+          <End Role="Departure_schedule" Type="Self.Departure_schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket_sales">
+              <PropertyRef Name="id_tic" />
+            </Principal>
+            <Dependent Role="Departure_schedule">
+              <PropertyRef Name="id_ti" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="airEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="aircraft" EntityType="Self.aircraft" />
+          <EntitySet Name="Aircraft_crews" EntityType="Self.Aircraft_crews" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Ticket_sales" EntityType="Self.Ticket_sales" />
+          <EntitySet Name="Departure_schedule" EntityType="Self.Departure_schedule" />
+          <EntitySet Name="Table1" EntityType="Self.Table1" />
+          <AssociationSet Name="FK_Departure_schedule_aircraft" Association="Self.FK_Departure_schedule_aircraft">
+            <End Role="aircraft" EntitySet="aircraft" />
+            <End Role="Departure_schedule" EntitySet="Departure_schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_aircraft" Association="Self.FK_Table1_aircraft">
+            <End Role="aircraft" EntitySet="aircraft" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_Aircraft_crews" Association="Self.FK_Table1_Aircraft_crews">
+            <End Role="Aircraft_crews" EntitySet="Aircraft_crews" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table1_Staff" Association="Self.FK_Table1_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Table1" EntitySet="Table1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departure_schedule_Ticket_sales" Association="Self.FK_Departure_schedule_Ticket_sales">
+            <End Role="Ticket_sales" EntitySet="Ticket_sales" />
+            <End Role="Departure_schedule" EntitySet="Departure_schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище airModelContainer" CdmEntityContainer="airEntities">
+          <EntitySetMapping Name="aircraft">
+            <EntityTypeMapping TypeName="airModel.aircraft">
+              <MappingFragment StoreEntitySet="aircraft">
+                <ScalarProperty Name="id_air" ColumnName="id_air" />
+                <ScalarProperty Name="nomber" ColumnName="nomber" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="Load_capacity" ColumnName="Load_capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aircraft_crews">
+            <EntityTypeMapping TypeName="airModel.Aircraft_crews">
+              <MappingFragment StoreEntitySet="Aircraft_crews">
+                <ScalarProperty Name="id_cr" ColumnName="id_cr" />
+                <ScalarProperty Name="brigade_number" ColumnName="brigade_number" />
+                <ScalarProperty Name="plane" ColumnName="plane" />
+                <ScalarProperty Name="staff_air" ColumnName="staff_air" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staff">
+            <EntityTypeMapping TypeName="airModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="id_st" ColumnName="id_st" />
+                <ScalarProperty Name="syrname" ColumnName="syrname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="patronumic" ColumnName="patronumic" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="date_work" ColumnName="date_work" />
+                <ScalarProperty Name="experience" ColumnName="experience" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="airModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ticket_sales">
+            <EntityTypeMapping TypeName="airModel.Ticket_sales">
+              <MappingFragment StoreEntitySet="Ticket_sales">
+                <ScalarProperty Name="id_tic" ColumnName="id_tic" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="SNP" ColumnName="SNP" />
+                <ScalarProperty Name="Ps" ColumnName="Ps" />
+                <ScalarProperty Name="nomber" ColumnName="nomber" />
+                <ScalarProperty Name="quant" ColumnName="quant" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departure_schedule">
+            <EntityTypeMapping TypeName="airModel.Departure_schedule">
+              <MappingFragment StoreEntitySet="Departure_schedule">
+                <ScalarProperty Name="id_dep" ColumnName="id_dep" />
+                <ScalarProperty Name="plane" ColumnName="plane" />
+                <ScalarProperty Name="departure_date" ColumnName="departure_date" />
+                <ScalarProperty Name="departure_time" ColumnName="departure_time" />
+                <ScalarProperty Name="place_of_departure" ColumnName="place_of_departure" />
+                <ScalarProperty Name="place_of_arrival" ColumnName="place_of_arrival" />
+                <ScalarProperty Name="route" ColumnName="route" />
+                <ScalarProperty Name="ticket_price" ColumnName="ticket_price" />
+                <ScalarProperty Name="id_ti" ColumnName="id_ti" />
+                <ScalarProperty Name="id_air" ColumnName="id_air" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table1">
+            <EntityTypeMapping TypeName="airModel.Table1">
+              <MappingFragment StoreEntitySet="Table1">
+                <ScalarProperty Name="id_st" ColumnName="id_st" />
+                <ScalarProperty Name="id_air" ColumnName="id_air" />
+                <ScalarProperty Name="id_cr" ColumnName="id_cr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

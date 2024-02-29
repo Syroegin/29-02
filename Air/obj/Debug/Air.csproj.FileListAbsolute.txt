@@ -1,0 +1,9 @@
+C:\Users\PK10\source\repos\Air\obj\Debug\Air.csproj.AssemblyReference.cache
+C:\Users\PK10\source\repos\Air\obj\Debug\MainWindow.g.cs
+C:\Users\PK10\source\repos\Air\obj\Debug\Page\Menu.g.cs
+C:\Users\PK10\source\repos\Air\obj\Debug\App.g.cs
+C:\Users\PK10\source\repos\Air\obj\Debug\Air_Content.g.cs
+C:\Users\PK10\source\repos\Air\obj\Debug\Air_MarkupCompile.cache
+C:\Users\PK10\source\repos\Air\obj\Debug\Air_MarkupCompile.lref
+C:\Users\PK10\source\repos\Air\obj\Debug\Pages\FirstPage.g.cs
+C:\Users\PK10\source\repos\Air\obj\Debug\Pages\Menu.g.cs
